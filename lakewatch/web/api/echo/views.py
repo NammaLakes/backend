@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from lakewatch_backend.web.api.echo.schema import Message
+from lakewatch.web.api.echo.schema import Message
 
 router = APIRouter()
 

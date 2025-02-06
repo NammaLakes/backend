@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/tmp/poetry_cache poetry install --only main
 COPY . /app/src/
 RUN --mount=type=cache,target=/tmp/poetry_cache poetry install --only main
 
-CMD ["/usr/local/bin/python", "-m", "lakewatch_backend"]
+CMD ["/usr/local/bin/python", "-m", "lakewatch"]
 
 FROM prod AS dev
 

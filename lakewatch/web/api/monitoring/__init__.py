@@ -1,5 +1,5 @@
 """API for checking project status."""
 
-from lakewatch_backend.web.api.monitoring.views import router
+from lakewatch.web.api.monitoring.views import router
 
 __all__ = ["router"]

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "lakewatch_backend"
+name = "lakewatch"
 version = "0.1.0"
 description = ""
 authors = [
@@ -18,8 +18,6 @@ pydantic = "^2.10.4"
 pydantic-settings = "^2.7.0"
 yarl = "^1.18.3"
 ujson = "^5.10.0"
-SQLAlchemy = {version = "^2.0.36", extras = ["asyncio"]}
-aiosqlite = "^0.20.0"
 httptools = "^0.6.4"
 pymongo = "^4.10.1"
 loguru = "^0.7.3"
@@ -39,7 +37,7 @@ httpx = "^0.27.0"
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-src_paths = ["lakewatch_backend",]
+src_paths = ["lakewatch",]
 
 [tool.mypy]
 strict = true
@@ -61,8 +59,8 @@ filterwarnings = [
     "ignore:.*unclosed.*:ResourceWarning",
 ]
 env = [
-    "LAKEWATCH_BACKEND_ENVIRONMENT=pytest",
-    "LAKEWATCH_BACKEND_DB_FILE=test_db.sqlite3",
+    "LAKEWATCH_ENVIRONMENT=pytest",
+    "LAKEWATCH_DB_FILE=test_db.sqlite3",
 ]
 
 [tool.ruff]
@@ -112,7 +110,6 @@ lint.ignore = [
     "D106",    # Missing docstring in public nested class
 ]
 exclude = [
-    "lakewatch_backend/db/migrations",
     ".venv/"
 ]
 lint.mccabe = { max-complexity = 10 }
@@ -132,7 +129,7 @@ allow-magic-value-types = ["int", "str", "float", "bytes"]
 
 
 [fastapi-template.options]
-project_name = "lakewatch_backend"
+project_name = "lakewatch"
 api_type = "rest"
 enable_redis = "None"
 enable_rmq = "None"
@@ -140,13 +137,13 @@ ci_type = "github"
 enable_migrations = "None"
 enable_taskiq = "None"
 enable_kube = "None"
-kube_name = "lakewatch-backend"
+kube_name = "lakewatch"
 enable_routers = "True"
 enable_kafka = "None"
 enable_loguru = "True"
 traefik_labels = "None"
-add_dummy = "True"
-orm = "sqlalchemy"
+add_dummy = "None"
+orm = "none"
 self_hosted_swagger = "None"
 prometheus_enabled = "None"
 sentry_enabled = "None"

@@ -17,7 +17,7 @@ repos:
             language: system
             pass_filenames: false
             always_run: true
-            args: ["check", "lakewatch_backend", "tests", "--fix"]
+            args: ["check", "lakewatch", "tests", "--fix"]
 
           - id: mypy
             name: Validate types with MyPy
@@ -26,4 +26,4 @@ repos:
             types: [python]
             pass_filenames: false
             args:
-              - "lakewatch_backend"
+              - "lakewatch"

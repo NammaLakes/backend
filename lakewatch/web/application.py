@@ -3,9 +3,9 @@ from importlib import metadata
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 
-from lakewatch_backend.log import configure_logging
-from lakewatch_backend.web.api.router import api_router
-from lakewatch_backend.web.lifespan import lifespan_setup
+from lakewatch.log import configure_logging
+from lakewatch.web.api.router import api_router
+from lakewatch.web.lifespan import lifespan_setup
 
 
 def get_app() -> FastAPI:
@@ -18,8 +18,8 @@ def get_app() -> FastAPI:
     """
     configure_logging()
     app = FastAPI(
-        title="lakewatch_backend",
-        version=metadata.version("lakewatch_backend"),
+        title="lakewatch",
+        version=metadata.version("lakewatch"),
         lifespan=lifespan_setup,
         docs_url="/api/docs",
         redoc_url="/api/redoc",

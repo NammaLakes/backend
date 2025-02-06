@@ -4,7 +4,7 @@ from typing import Union
 
 from loguru import logger
 
-from lakewatch_backend.settings import settings
+from lakewatch.settings import settings
 
 
 class InterceptHandler(logging.Handler):

@@ -1,12 +1,12 @@
 import uvicorn
 
-from lakewatch_backend.settings import settings
+from lakewatch.settings import settings
 
 
 def main() -> None:
     """Entrypoint of the application."""
     uvicorn.run(
-        "lakewatch_backend.web.application:get_app",
+        "lakewatch.web.application:get_app",
         workers=settings.workers_count,
         host=settings.host,
         port=settings.port,

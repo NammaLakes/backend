@@ -1,4 +1,4 @@
-# lakewatch_backend
+# lakewatch
 
 This project was generated using fastapi_template.
 
@@ -11,7 +11,7 @@ To run the project use this set of commands:
 
 ```bash
 poetry install
-poetry run python -m lakewatch_backend
+poetry run python -m lakewatch
 ```
 
 This will start the server on the configured host.
@@ -46,8 +46,8 @@ docker-compose build
 ## Project structure
 
 ```bash
-$ tree "lakewatch_backend"
-lakewatch_backend
+$ tree "lakewatch"
+lakewatch
 ├── conftest.py  # Fixtures for all tests.
 ├── db  # module contains db configurations
 │   ├── dao  # Data Access Objects. Contains different classes to interact with database.
@@ -71,18 +71,18 @@ This application can be configured with environment variables.
 You can create `.env` file in the root directory and place all
 environment variables here. 
 
-All environment variables should start with "LAKEWATCH_BACKEND_" prefix.
+All environment variables should start with "LAKEWATCH_" prefix.
 
-For example if you see in your "lakewatch_backend/settings.py" a variable named like
-`random_parameter`, you should provide the "LAKEWATCH_BACKEND_RANDOM_PARAMETER" 
+For example if you see in your "lakewatch/settings.py" a variable named like
+`random_parameter`, you should provide the "LAKEWATCH_RANDOM_PARAMETER" 
 variable to configure the value. This behaviour can be changed by overriding `env_prefix` property
-in `lakewatch_backend.settings.Settings.Config`.
+in `lakewatch.settings.Settings.Config`.
 
 An example of .env file:
 ```bash
-LAKEWATCH_BACKEND_RELOAD="True"
-LAKEWATCH_BACKEND_PORT="8000"
-LAKEWATCH_BACKEND_ENVIRONMENT="dev"
+LAKEWATCH_RELOAD="True"
+LAKEWATCH_PORT="8000"
+LAKEWATCH_ENVIRONMENT="dev"
 ```
 
 You can read more about BaseSettings class here: https://pydantic-docs.helpmanual.io/usage/settings/

@@ -3,18 +3,18 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: lakewatch_backend:${LAKEWATCH_BACKEND_VERSION:-latest}
+    image: lakewatch:${LAKEWATCH_VERSION:-latest}
     restart: always
     env_file:
       - .env
     environment:
-      LAKEWATCH_BACKEND_HOST: 0.0.0.0
-      LAKEWATCH_BACKEND_DB_FILE: /db_data/db.sqlite3
+      LAKEWATCH_HOST: 0.0.0.0
+      LAKEWATCH_DB_FILE: /db_data/db.sqlite3
     volumes:
-      - lakewatch_backend-db-data:/db_data/
+      - lakewatch-db-data:/db_data/
 
 
 
 volumes:
-  lakewatch_backend-db-data:
-    name: lakewatch_backend-db-data
+  lakewatch-db-data:
+    name: lakewatch-db-data

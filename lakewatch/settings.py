@@ -49,11 +49,11 @@ class Settings(BaseSettings):
 
         :return: database URL.
         """
-        return URL.build(scheme="sqlite+aiosqlite", path=f"///{self.db_file}")
+        return URL.build(scheme="sqlite", path=f"///{self.db_file}")
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        env_prefix="LAKEWATCH_BACKEND_",
+        env_prefix="LAKEWATCH_",
         env_file_encoding="utf-8",
     )
 

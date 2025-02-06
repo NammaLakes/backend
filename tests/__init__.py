@@ -1,1 +1,1 @@
-"""Tests for lakewatch_backend."""
+"""Tests for lakewatch."""

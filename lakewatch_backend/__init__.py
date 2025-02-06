@@ -1,1 +1,0 @@
-"""lakewatch_backend package."""

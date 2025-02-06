@@ -10,4 +10,4 @@ services:
     - .:/app/src/
     environment:
       # Enables autoreload.
-      LAKEWATCH_BACKEND_RELOAD: "True"
+      LAKEWATCH_RELOAD: "True"

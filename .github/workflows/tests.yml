@@ -1,4 +1,4 @@
-name: Testing lakewatch_backend
+name: Testing lakewatch
 
 on: push
 
