@@ -10,10 +10,23 @@ services:
     environment:
       LAKEWATCH_HOST: 0.0.0.0
       LAKEWATCH_DB_FILE: /db_data/db.sqlite3
+      LAKEWATCH_RABBITMQ_HOST: rabbitmq
     volumes:
-      - lakewatch-db-data:/db_data/
+      - ./data:/db_data/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
-
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   lakewatch-db-data:

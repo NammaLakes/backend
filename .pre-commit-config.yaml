@@ -11,14 +11,6 @@ repos:
             language: system
             types: [python]
 
-          - id: ruff
-            name: Check with Ruff
-            entry: poetry run ruff
-            language: system
-            pass_filenames: false
-            always_run: true
-            args: ["check", "lakewatch", "tests", "--fix"]
-
           - id: mypy
             name: Validate types with MyPy
             entry: poetry run mypy

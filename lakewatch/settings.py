@@ -42,6 +42,11 @@ class Settings(BaseSettings):
     db_file: Path = TEMP_DIR / "db.sqlite3"
     db_echo: bool = False
 
+    # RabbitMQ settings
+    rabbitmq_host: str = "localhost"
+    rabbitmq_port: int = 5672
+    rabbitmq_queue: str = "node_data"
+
     @property
     def db_url(self) -> URL:
         """

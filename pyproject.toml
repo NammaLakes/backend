@@ -21,6 +21,7 @@ ujson = "^5.10.0"
 httptools = "^0.6.4"
 pymongo = "^4.10.1"
 loguru = "^0.7.3"
+aio-pika = "^9.5.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -60,7 +61,7 @@ filterwarnings = [
 ]
 env = [
     "LAKEWATCH_ENVIRONMENT=pytest",
-    "LAKEWATCH_DB_FILE=test_db.sqlite3",
+    "LAKEWATCH_DB_FILE=/db_data/db.sqlite3",
 ]
 
 [tool.ruff]

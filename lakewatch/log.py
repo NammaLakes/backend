@@ -44,20 +44,30 @@ class InterceptHandler(logging.Handler):
 def configure_logging() -> None:  # pragma: no cover
     """Configures logging."""
     intercept_handler = InterceptHandler()
-
     logging.basicConfig(handlers=[intercept_handler], level=logging.NOTSET)
 
+    # Configure loggers
     for logger_name in logging.root.manager.loggerDict:
         if logger_name.startswith("uvicorn."):
             logging.getLogger(logger_name).handlers = []
 
-    # change handler for default uvicorn logger
     logging.getLogger("uvicorn").handlers = [intercept_handler]
     logging.getLogger("uvicorn.access").handlers = [intercept_handler]
 
-    # set logs output, level and format
+    # Reset and configure loguru
     logger.remove()
+    
+    # Console output
     logger.add(
         sys.stdout,
+        level=settings.log_level.value,
+    )
+    
+    # File output
+    logger.add(
+        "/db_data/logs/lakewatch.log",
+        rotation="10 MB",
+        retention="1 week",
+        compression="zip",
         level=settings.log_level.value,
     )
