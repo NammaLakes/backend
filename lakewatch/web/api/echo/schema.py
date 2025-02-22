@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-
-class Message(BaseModel):
-    """Simple message model."""
-
+class EchoRequest(BaseModel):
     message: str
+
+class EchoResponse(BaseModel):
+    response: str

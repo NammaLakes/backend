@@ -1,18 +1,8 @@
 from fastapi import APIRouter
+from .schema import EchoRequest, EchoResponse
 
-from lakewatch.web.api.echo.schema import Message
+echo_router = APIRouter()
 
-router = APIRouter()
-
-
-@router.post("/", response_model=Message)
-async def send_echo_message(
-    incoming_message: Message,
-) -> Message:
-    """
-    Sends echo back to user.
-
-    :param incoming_message: incoming message.
-    :returns: message same as the incoming.
-    """
-    return incoming_message
+@echo_router.post("/", response_model=EchoResponse)
+async def echo_message(request: EchoRequest):
+    return {"response": f"Echo: {request.message}"}
