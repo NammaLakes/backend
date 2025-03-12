@@ -2,6 +2,7 @@ from importlib import metadata
 
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from lakewatch.log import configure_logging
 from lakewatch.web.api.router import api_router
@@ -27,7 +28,15 @@ def get_app() -> FastAPI:
         default_response_class=UJSONResponse,
     )
 
-    # Main router for the API.
-    app.include_router(router=api_router, prefix="/api")
+    # Setup CORS middleware
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # For development, you may want to restrict this in production
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    app.include_router(api_router, prefix="/api")
 
     return app

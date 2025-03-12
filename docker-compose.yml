@@ -16,6 +16,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "8000:8000"
 
   rabbitmq:
     image: rabbitmq:3-management
