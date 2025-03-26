@@ -6,6 +6,7 @@ import sqlite3
 import json
 from loguru import logger
 
+from lakewatch.services.threshold import threshold_check
 from lakewatch.settings import settings
 
 async def get_rabbitmq_connection() -> AsyncGenerator[Connection, None]:
@@ -50,6 +51,9 @@ async def process_message(message: AbstractIncomingMessage) -> None:
             conn.close()
             
             logger.info(f"Processed message from node {data['node_id']}")
+            
+            # Check thresholds
+            await threshold_check(data["payload"])
             
         except Exception as e:
             logger.error(f"Error processing message: {e}")

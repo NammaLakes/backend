@@ -47,6 +47,13 @@ class Settings(BaseSettings):
     rabbitmq_port: int = 5672
     rabbitmq_queue: str = "node_data"
 
+    # Thresholds
+    temperature_threshold: float = 30.0
+    humidity_threshold: float = 70.0
+    ph_threshold: float = 7.0
+    turbidity_threshold: float = 100.0
+    conductivity_threshold: float = 100.0
+
     @property
     def db_url(self) -> URL:
         """
@@ -61,6 +68,5 @@ class Settings(BaseSettings):
         env_prefix="LAKEWATCH_",
         env_file_encoding="utf-8",
     )
-
 
 settings = Settings()

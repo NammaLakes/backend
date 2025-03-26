@@ -1,12 +1,33 @@
-from fastapi import APIRouter
+from fastapi import WebSocket, APIRouter, WebSocketDisconnect
+import asyncio
+from loguru import logger
 
 router = APIRouter()
 
+connections = set()
 
-@router.get("/health")
-def health_check() -> None:
-    """
-    Checks the health of a project.
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    connections.add(websocket)
+    logger.info("Client connected via WebSocket")
 
-    It returns 200 if the project is healthy.
-    """
+    try:
+        while True:
+            await asyncio.sleep(10)
+    except WebSocketDisconnect:
+        connections.remove(websocket)
+        logger.info("Client disconnected")
+
+async def send_threshold_alert(message):
+    if not connections:
+        logger.warning("No active clients to send the alert.")
+        return
+
+    logger.info(f"Sending alert to clients: {message}")
+    for connection in list(connections):
+        try:
+            await connection.send_text(message)
+        except Exception as e:
+            logger.error(f"Failed to send message: {e}")
+            connections.remove(connection)
