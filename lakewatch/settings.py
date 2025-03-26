@@ -53,6 +53,7 @@ class Settings(BaseSettings):
     ph_threshold: float = 7.0
     turbidity_threshold: float = 100.0
     conductivity_threshold: float = 100.0
+    oxygen_threshold: float = 5.0
 
     @property
     def db_url(self) -> URL:

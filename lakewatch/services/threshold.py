@@ -1,10 +1,11 @@
 from loguru import logger
+from typing import Dict, Any
 
 from lakewatch.settings import settings
 from lakewatch.web.api.monitoring.views import send_threshold_alert
 
 
-async def threshold_check(payload):
+async def threshold_check(payload: Dict[str, float]) -> None:
     for key, value in payload.items():
         if key == "temperature":
             if value > settings.temperature_threshold:

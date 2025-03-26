@@ -8,7 +8,7 @@ connections = set()
 
 
 @router.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket) -> None:
     await websocket.accept()
     connections.add(websocket)
     logger.info("Client connected via WebSocket")
@@ -21,7 +21,7 @@ async def websocket_endpoint(websocket: WebSocket):
         logger.info("Client disconnected")
 
 
-async def send_threshold_alert(message):
+async def send_threshold_alert(message: str) -> None:
     if not connections:
         logger.warning("No active clients to send the alert.")
         return

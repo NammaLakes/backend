@@ -1,7 +1,7 @@
 from typing import AsyncGenerator
 import aio_pika
 from aio_pika import Connection, Channel, Queue
-from aio_pika.abc import AbstractIncomingMessage
+from aio_pika.abc import AbstractIncomingMessage, AbstractConnection
 import sqlite3
 import json
 from loguru import logger
@@ -10,7 +10,7 @@ from lakewatch.services.threshold import threshold_check
 from lakewatch.settings import settings
 
 
-async def get_rabbitmq_connection() -> AsyncGenerator[Connection, None]:
+async def get_rabbitmq_connection() -> AsyncGenerator[AbstractConnection, None]:
     """Create and yield RabbitMQ connection."""
     connection = await aio_pika.connect_robust(
         host=settings.rabbitmq_host,
