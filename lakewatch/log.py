@@ -56,13 +56,13 @@ def configure_logging() -> None:  # pragma: no cover
 
     # Reset and configure loguru
     logger.remove()
-    
+
     # Console output
     logger.add(
         sys.stdout,
         level=settings.log_level.value,
     )
-    
+
     # File output
     logger.add(
         "/db_data/logs/lakewatch.log",

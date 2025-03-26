@@ -6,6 +6,7 @@ router = APIRouter()
 
 connections = set()
 
+
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -18,6 +19,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         connections.remove(websocket)
         logger.info("Client disconnected")
+
 
 async def send_threshold_alert(message):
     if not connections:
