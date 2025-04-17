@@ -1,11 +1,14 @@
 from importlib import metadata
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
-from fastapi.middleware.cors import CORSMiddleware
-from lakewatch.log import configure_logging
+from fastapi.staticfiles import StaticFiles
+
 from lakewatch.web.api.router import api_router
-from lakewatch.web.lifespan import lifespan_setup
+from lakewatch.web.lifespan import lifespan
+
+APP_ROOT = Path(__file__).parent.parent
 
 
 def get_app() -> FastAPI:
@@ -16,26 +19,16 @@ def get_app() -> FastAPI:
 
     :return: application.
     """
-    configure_logging()
     app = FastAPI(
         title="lakewatch",
         version=metadata.version("lakewatch"),
-        lifespan=lifespan_setup,
         docs_url="/api/docs",
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
         default_response_class=UJSONResponse,
+        lifespan=lifespan,
     )
 
-    # Setup CORS middleware
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-    app.include_router(api_router, prefix="/api")
+    app.include_router(router=api_router, prefix="/api")
 
     return app

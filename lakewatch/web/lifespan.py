@@ -9,7 +9,7 @@ from lakewatch.services.rabbitmq import process_message
 
 
 @asynccontextmanager
-async def lifespan_setup(app: FastAPI) -> AsyncGenerator[None, None]:
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Setup lifespan events."""
     # Connect to RabbitMQ
     connection = await aio_pika.connect_robust(

@@ -18,6 +18,8 @@ RUN --mount=type=cache,target=/tmp/poetry_cache poetry install --only main
 COPY . /app/src/
 RUN --mount=type=cache,target=/tmp/poetry_cache poetry install --only main
 
+RUN mkdir -p /db_data && chown root:root /db_data
+
 CMD ["/usr/local/bin/python", "-m", "lakewatch"]
 
 FROM prod AS dev
