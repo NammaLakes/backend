@@ -33,9 +33,11 @@ def get_data(node_id: str) -> Dict[str, Any]:
         for row in rows:
             data = {
                 "node_id": row["node_id"],
-                # "timestamp": row["timestamp"],
-                # "datetime": datetime.fromtimestamp(row["timestamp"]).isoformat(),
-                "payload": json.loads(row["data"]),
+                "timestamp": row["timestamp"],
+                "datetime": datetime.fromtimestamp(row["timestamp"]).isoformat(),
+                "temperature": row["temperature"],
+                "ph": row["ph"],
+                "dissolved_oxygen": row["dissolved_oxygen"],
             }
             result.append(data)
 

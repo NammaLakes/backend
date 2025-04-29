@@ -33,31 +33,83 @@ async def process_message(message: AbstractIncomingMessage) -> None:
             conn = sqlite3.connect(settings.db_file)
             cursor = conn.cursor()
 
-            # Create table if not exists
+            # Create data table if not exists
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS node_data (
                     node_id TEXT,
                     timestamp INTEGER,
-                    data TEXT,
+                    temperature REAL,
+                    ph REAL,
+                    dissolved_oxygen REAL, 
                     PRIMARY KEY (node_id, timestamp)
+                )
+            """
+            )
+
+            # Create node metadata table if not exists
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS node_metadata (
+                    node_id TEXT PRIMARY KEY,
+                    latitude REAL,
+                    longitude REAL,
+                    last_updated INTEGER,
+                    maintenance_required INTEGER,
+                    temperature REAL,
+                    dissolved_oxygen REAL,
+                    ph REAL,
+                    FOREIGN KEY (node_id) REFERENCES node_data (node_id)
                 )
             """
             )
 
             # Insert data
             cursor.execute(
-                "INSERT INTO node_data (node_id, timestamp, data) VALUES (?, ?, ?)",
-                (data["node_id"], data["timestamp"], json.dumps(data["payload"])),
+                "INSERT INTO node_data (node_id, timestamp, temperature, ph, dissolved_oxygen) VALUES (?, ?, ?, ?, ?)",
+                (
+                    data["node_id"],
+                    data["timestamp"],
+                    data["temperature"],
+                    data["ph"],
+                    data["dissolved_oxygen"],
+                ),
             )
 
+            # Insert or update node metadata
+            cursor.execute(
+                """
+                INSERT INTO node_metadata (node_id, latitude, longitude, last_updated, maintenance_required, temperature, ph, dissolved_oxygen)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(node_id) DO UPDATE SET
+                latitude = excluded.latitude,
+                longitude = excluded.longitude,
+                last_updated = excluded.last_updated,
+                maintenance_required = excluded.maintenance_required,
+                temperature = excluded.temperature,
+                ph = excluded.ph,
+                dissolved_oxygen = excluded.dissolved_oxygen
+                WHERE node_metadata.last_updated < excluded.last_updated
+                OR node_metadata.maintenance_required != excluded.maintenance_required
+                """,
+                (
+                    data["node_id"],
+                    data["latitude"],
+                    data["longitude"],
+                    data["timestamp"],
+                    data["maintenance_required"],
+                    data["temperature"],
+                    data["ph"],
+                    data["dissolved_oxygen"],
+                ),
+            )
+
+            cursor.close()
             conn.commit()
             conn.close()
 
             logger.info(f"Processed message from node {data['node_id']}")
-
-            # Check thresholds
-            await threshold_check(data["payload"])
+            await threshold_check(data)
 
         except Exception as e:
             logger.error(f"Error processing message: {e}")
