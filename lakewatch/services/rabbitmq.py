@@ -7,6 +7,7 @@ import json
 from loguru import logger
 
 from lakewatch.services.threshold import threshold_check
+from lakewatch.services.outlier import process_outliers
 from lakewatch.settings import settings
 
 
@@ -109,7 +110,10 @@ async def process_message(message: AbstractIncomingMessage) -> None:
             conn.close()
 
             logger.info(f"Processed message from node {data['node_id']}")
+            
+            # Process threshold checks and outlier detection
             await threshold_check(data)
+            await process_outliers(data)
 
         except Exception as e:
             logger.error(f"Error processing message: {e}")

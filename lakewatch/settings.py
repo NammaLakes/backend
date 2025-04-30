@@ -54,6 +54,7 @@ class Settings(BaseSettings):
     turbidity_threshold: float = 100.0
     conductivity_threshold: float = 100.0
     oxygen_threshold: float = 5.0
+    z_score_threshold: float = 2.0  # Number of standard deviations for outlier detection
 
     @property
     def db_url(self) -> URL:
