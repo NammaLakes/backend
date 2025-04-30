@@ -34,9 +34,7 @@ async def process_outliers(payload: Dict[str, Any]) -> None:
         rows = cursor.fetchall()
 
         conn.close()
-
         if not rows or len(rows) < 3:
-            # Not enough data to detect outliers
             return
 
         # Calculate simple means of recent values
@@ -44,10 +42,11 @@ async def process_outliers(payload: Dict[str, Any]) -> None:
         recent_ph = [r[1] for r in rows]
         recent_oxygen = [r[2] for r in rows]
 
-        def is_outlier(current, history, factor=2.0):
+        def is_outlier(current, history, factor=0.7):
             mean = sum(history) / len(history)
             deviation = abs(current - mean)
             return deviation > (factor * (max(history) - min(history)) / 2)
+
 
         if is_outlier(temperature, recent_temp):
             await send_threshold_alert(message=f"Outlier detected in temperature: {temperature}")
