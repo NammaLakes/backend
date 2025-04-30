@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 import sqlite3
 import json
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from lakewatch.settings import settings
 
@@ -33,11 +33,9 @@ def get_data(node_id: str) -> Dict[str, Any]:
         for row in rows:
             data = {
                 "node_id": row["node_id"],
-                "timestamp": row["timestamp"],
-                "datetime": datetime.fromtimestamp(row["timestamp"]).isoformat(),
-                "temperature": row["temperature"],
-                "ph": row["ph"],
-                "dissolved_oxygen": row["dissolved_oxygen"],
+                # "timestamp": row["timestamp"],
+                # "datetime": datetime.fromtimestamp(row["timestamp"]).isoformat(),
+                "payload": json.loads(row["data"]),
             }
             result.append(data)
 
