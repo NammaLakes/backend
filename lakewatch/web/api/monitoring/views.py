@@ -21,10 +21,10 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
         logger.info("Client disconnected")
 
 
-async def send_threshold_alert(message: str) -> None:
+async def send_threshold_alert(message: str) -> bool:
     if not connections:
         logger.warning("No active clients to send the alert.")
-        return
+        return False
 
     logger.info(f"Sending alert to clients: {message}")
     for connection in list(connections):
@@ -33,3 +33,4 @@ async def send_threshold_alert(message: str) -> None:
         except Exception as e:
             logger.error(f"Failed to send message: {e}")
             connections.remove(connection)
+    return True

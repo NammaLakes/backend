@@ -45,7 +45,7 @@ async def process_outliers(payload: Dict[str, Any]) -> None:
         recent_oxygen = [r[2] for r in rows]
 
         def is_outlier(
-            current: float, history: List[float], factor: float = 0.7
+            current: float, history: List[float], factor: float = 1.7
         ) -> bool:
             mean = sum(history) / len(history)
             deviation = abs(current - mean)
