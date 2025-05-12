@@ -19,6 +19,18 @@ services:
     ports:
       - "8000:8000"
 
+  test:
+    <<: *main_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: dev
+    image: lakewatch:dev
+    command: bash -c "pip install pytest-asyncio && pytest"
+    profiles: ["test"]
+    ports: []
+    restart: "no"
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
